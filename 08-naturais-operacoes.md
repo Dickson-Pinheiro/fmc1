@@ -813,9 +813,304 @@ Propriedade 5: (a·b)·c = a·(b·c)      (inducao em c, usa prop. 4)
 Cancelamento: a·c = b·c ∧ c≠0 ⟹ a=b  (inducao em a, usa props. 1, 2 + cancel. adicao)
 ```
 
-**Props 3 e 4 sao independentes:** nenhuma usa a outra na prova. A ordem 1→2→3→4→5 segue a logica de primeiro completar o paralelo com a adicao (comutatividade), depois introduzir a distributividade (propriedade nova), e por fim a associatividade. O cancelamento vem por ultimo porque depende de resultados de fora da multiplicacao (ordem e cancelamento da adicao).
+**Props 3 e 4 sao independentes:** nenhuma usa a outra na prova. A ordem 1→2→3→4→5 segue a logica de primeiro completar o paralelo com a adicao (comutatividade), depois introduzir a distributividade (propriedade nova), e por fim a associatividade. O cancelamento vem por ultimo porque depende do cancelamento da adicao (secao anterior).
 
 **Para a prova da disciplina:** se o professor pedir para provar a comutatividade da multiplicacao, voce DEVE mencionar que esta usando as Propriedades 1 e 2. Se pedir a associatividade, mencione a distributividade. Se pedir o cancelamento, mencione as Propriedades 1 e 2 e o cancelamento da adicao. Nao basta "usar" — precisa dizer que esta usando.
+
+---
+
+### Potenciacao: definicao recursiva
+
+Assim como a multiplicacao foi construida a partir da adicao, a potenciacao e construida a partir da multiplicacao.
+
+**A ideia intuitiva:** elevar a a potencia n e "multiplicar a por si mesmo n vezes".
+
+```
+a⁰:     multiplico a zero vezes → resultado e 1 (o elemento neutro da multiplicacao)
+a¹:     multiplico a uma vez → a
+a²:     multiplico a duas vezes → a · a
+a³:     multiplico a tres vezes → a · a · a
+```
+
+Formalmente:
+
+```
+(P1)  a⁰ = 1                      (caso base: qualquer numero elevado a 0 da 1)
+(P2)  a^S(n) = aⁿ · a             (passo recursivo: elevar ao proximo
+                                    e multiplicar mais uma vez por a)
+```
+
+**Leia P2 assim:** "a elevado ao sucessor de n" e o mesmo que "a elevado a n, vezes a". Ou seja, adicionamos mais um "fator" de a.
+
+**Note o padrao — cada operacao e construida sobre a anterior:**
+
+```
+Adicao:       m + 0 = m          m + S(n) = S(m + n)        (aplica S repetidamente)
+Multiplicacao: m · 0 = 0          m · S(n) = m · n + m       (aplica + repetidamente)
+Potenciacao:   a⁰ = 1            a^S(n) = aⁿ · a            (aplica · repetidamente)
+```
+
+Cada operacao tem um **caso base** (o elemento neutro) e um **passo recursivo** (que usa a operacao do nivel anterior).
+
+---
+
+### Exemplo passo a passo: calcular 2³
+
+```
+2³
+= 2^S(2)                    Reescrevemos 3 como S(2)
+= 2² · 2                    Aplicamos P2: a^S(n) = aⁿ · a
+
+  Agora precisamos calcular 2²:
+  2²
+  = 2^S(1)                  Reescrevemos 2 como S(1)
+  = 2¹ · 2                  Aplicamos P2
+
+    Agora precisamos calcular 2¹:
+    2¹
+    = 2^S(0)                Reescrevemos 1 como S(0)
+    = 2⁰ · 2               Aplicamos P2
+
+      Agora precisamos calcular 2⁰:
+      2⁰ = 1               Caso base! Aplicamos P1.
+
+    Voltando: 2¹ = 1 · 2 = 2
+
+  Voltando: 2² = 2 · 2 = 4
+
+Voltando: 2³ = 4 · 2 = 8   ✓
+```
+
+**Observe:** o padrao e identico ao da adicao e multiplicacao. Cada aplicacao de P2 "descasca" um S(…) do expoente. Quando chega em 0, P1 encerra a recursao. Depois, multiplicamos tudo.
+
+---
+
+### Exemplo passo a passo: calcular 3²
+
+```
+3²
+= 3^S(1)                    [2 = S(1)]
+= 3¹ · 3                    [P2]
+= (3^S(0)) · 3              [1 = S(0)]
+= (3⁰ · 3) · 3              [P2]
+= (1 · 3) · 3               [P1: 3⁰ = 1]
+= 3 · 3                     [1 · n = n, ja provado]
+= 9                          ✓
+```
+
+---
+
+### A armadilha da potenciacao: 0ⁿ e 1ⁿ
+
+Assim como nas operacoes anteriores, a definicao fixa a recursao no **expoente** (segundo argumento). Isso traz consequencias:
+
+```
+P1 diz:  a⁰ = 1     (o 0 esta no EXPOENTE)
+
+Isso nos da de graca:
+  5⁰ = 1  ✓
+  100⁰ = 1  ✓
+  a⁰ = 1  ✓  (para qualquer a — e literal na definicao)
+```
+
+Mas **0ⁿ** tem o 0 na **base**, nao no expoente. E preciso cuidado:
+
+```
+0⁰ = 1          ← por P1 (nesta definicao, 0⁰ = 1 por convencao)
+0¹ = 0⁰ · 0 = 1 · 0 = 0
+0² = 0¹ · 0 = 0 · 0 = 0
+```
+
+Para provar que **0^S(n) = 0** para todo n, precisamos de inducao.
+
+#### Prova: 0^S(n) = 0 para todo n ∈ ℕ
+
+```
+Caso base (n = 0):
+  0^S(0) = 0⁰ · 0             ← por P2
+         = 1 · 0               ← por P1
+         = 0                    ← por M1 (m · 0 = 0... mas cuidado!)
+
+  Na verdade: 1 · 0 = 0 por M1.  ✓
+
+H.I.: Suponha que 0^S(k) = 0.
+
+Passo indutivo (provar 0^S(S(k)) = 0):
+  0^S(S(k))
+  = 0^S(k) · 0                ← por P2
+  = 0 · 0                      ← pela H.I.
+  = 0                           ← por M1  ✓
+
+Pelo principio de inducao, 0^S(n) = 0 para todo n ∈ ℕ. □
+```
+
+**Resumindo:** 0⁰ = 1 (pela definicao P1), mas 0ⁿ = 0 para todo n ≥ 1.
+
+Da mesma forma, **1ⁿ = 1** para todo n, e a prova e simples:
+
+#### Prova: 1ⁿ = 1 para todo n ∈ ℕ
+
+```
+Caso base (n = 0):
+  1⁰ = 1.  (Por P1.)  ✓
+
+H.I.: Suponha que 1^k = 1.
+
+Passo indutivo (provar 1^S(k) = 1):
+  1^S(k)
+  = 1^k · 1                   ← por P2
+  = 1 · 1                      ← pela H.I.
+  = 1                           ← pois m · 1 = m (com m = 1)  ✓
+
+Pelo principio de inducao, 1ⁿ = 1 para todo n ∈ ℕ. □
+```
+
+---
+
+### Propriedades da potenciacao
+
+Assim como na adicao e na multiplicacao, as propriedades "obvias" precisam ser demonstradas. Cada prova usa inducao e os resultados anteriores.
+
+---
+
+#### Propriedade: aⁿ⁺ᵐ = aⁿ · aᵐ (expoente da soma)
+
+**A intuicao:** a elevado a (n + m) e "multiplicar a por si mesmo n + m vezes", que e o mesmo que "n vezes" seguido de "m vezes".
+
+#### Prova por inducao em m:
+
+```
+Caso base (m = 0):
+  Lado esquerdo:
+    a^(n + 0) = aⁿ              ← por A1 (n + 0 = n)
+
+  Lado direito:
+    aⁿ · a⁰ = aⁿ · 1 = aⁿ      ← por P1 e pela identidade m · 1 = m
+
+  Iguais.  ✓
+
+H.I.: Suponha que a^(n + k) = aⁿ · a^k.
+
+Passo indutivo (provar a^(n + S(k)) = aⁿ · a^S(k)):
+
+  Lado esquerdo:
+    a^(n + S(k))
+    = a^S(n + k)                 ← por A2 (n + S(k) = S(n + k))
+    = a^(n + k) · a              ← por P2
+    = (aⁿ · a^k) · a            ← pela H.I.
+
+  Lado direito:
+    aⁿ · a^S(k)
+    = aⁿ · (a^k · a)            ← por P2
+    = (aⁿ · a^k) · a            ← pela associatividade da multiplicacao
+
+  Ambos os lados dao (aⁿ · a^k) · a.  ✓
+
+Pelo principio de inducao, a^(n + m) = aⁿ · aᵐ para todo n, m ∈ ℕ. □
+```
+
+---
+
+#### Propriedade: (aⁿ)ᵐ = aⁿ·ᵐ (expoente do expoente)
+
+**A intuicao:** elevar aⁿ a potencia m e multiplicar o expoente n por m.
+
+#### Prova por inducao em m:
+
+```
+Caso base (m = 0):
+  Lado esquerdo:
+    (aⁿ)⁰ = 1                   ← por P1
+
+  Lado direito:
+    a^(n · 0) = a⁰ = 1          ← por M1 e P1
+
+  Iguais.  ✓
+
+H.I.: Suponha que (aⁿ)^k = a^(n · k).
+
+Passo indutivo (provar (aⁿ)^S(k) = a^(n · S(k))):
+
+  Lado esquerdo:
+    (aⁿ)^S(k)
+    = (aⁿ)^k · aⁿ              ← por P2
+    = a^(n · k) · aⁿ           ← pela H.I.
+
+  Lado direito:
+    a^(n · S(k))
+    = a^(n · k + n)             ← por M2 (n · S(k) = n · k + n)
+    = a^(n · k) · aⁿ           ← pela propriedade a^(p+q) = a^p · a^q
+
+  Ambos os lados dao a^(n · k) · aⁿ.  ✓
+
+Pelo principio de inducao, (aⁿ)ᵐ = aⁿ·ᵐ para todo n, m ∈ ℕ. □
+```
+
+---
+
+#### Propriedade: (a · b)ⁿ = aⁿ · bⁿ (potencia do produto)
+
+**A intuicao:** elevar um produto a potencia n e o mesmo que elevar cada fator a n.
+
+#### Prova por inducao em n:
+
+```
+Caso base (n = 0):
+  Lado esquerdo:
+    (a · b)⁰ = 1                ← por P1
+
+  Lado direito:
+    a⁰ · b⁰ = 1 · 1 = 1       ← por P1
+
+  Iguais.  ✓
+
+H.I.: Suponha que (a · b)^k = a^k · b^k.
+
+Passo indutivo (provar (a · b)^S(k) = a^S(k) · b^S(k)):
+
+  Lado esquerdo:
+    (a · b)^S(k)
+    = (a · b)^k · (a · b)       ← por P2
+    = (a^k · b^k) · (a · b)     ← pela H.I.
+
+  Lado direito:
+    a^S(k) · b^S(k)
+    = (a^k · a) · (b^k · b)     ← por P2 (aplicado a cada fator)
+
+  Precisamos mostrar que (a^k · b^k) · (a · b) = (a^k · a) · (b^k · b).
+
+  Reorganizando o lado esquerdo usando associatividade e comutatividade
+  da multiplicacao:
+    (a^k · b^k) · (a · b)
+    = a^k · (b^k · (a · b))     ← associatividade
+    = a^k · (b^k · a · b)
+    = a^k · (a · b^k · b)       ← comutatividade (b^k · a = a · b^k)
+    = (a^k · a) · (b^k · b)     ← associatividade
+
+  Ambos os lados dao (a^k · a) · (b^k · b).  ✓
+
+Pelo principio de inducao, (a · b)ⁿ = aⁿ · bⁿ para todo n ∈ ℕ. □
+```
+
+---
+
+### Resumo: a hierarquia da potenciacao
+
+```
+Definicoes P1, P2  +  Toda a teoria da adicao e multiplicacao
+    ↓
+0^S(n) = 0                      (inducao em n)
+    ↓
+1ⁿ = 1                          (inducao em n)
+    ↓
+a^(n+m) = aⁿ · aᵐ              (inducao em m, usa assoc. da multiplicacao)
+    ↓
+(aⁿ)ᵐ = a^(n·m)                (inducao em m, usa propriedade acima)
+    ↓
+(a·b)ⁿ = aⁿ · bⁿ               (inducao em n, usa comut. e assoc. da multiplicacao)
+```
+
+**O padrao se repete:** definicao recursiva → exemplos → armadilhas (0 na base) → propriedades por inducao. E a mesma estrutura da adicao e da multiplicacao, agora num nivel acima.
 
 ---
 
@@ -869,16 +1164,21 @@ NIVEL 4: Propriedades da multiplicacao
          Prop 3: comutatividade, Prop 4: distributividade
          Prop 5: associatividade
     ↓
-NIVEL 5: Definicao da ordem (≤, <)
+NIVEL 5: Definicao da potenciacao (P1, P2)
     ↓
-NIVEL 6: Propriedades da ordem
+NIVEL 6: Propriedades da potenciacao
+         (0^S(n)=0, 1ⁿ=1, a^(n+m)=aⁿ·aᵐ, (aⁿ)ᵐ=a^(n·m), (a·b)ⁿ=aⁿ·bⁿ)
+    ↓
+NIVEL 7: Definicao da ordem (≤, <)
+    ↓
+NIVEL 8: Propriedades da ordem
          (reflexiva, transitiva, tricotomia, compatibilidade com + e ·)
     ↓
-NIVEL 7: Cancelamento da multiplicacao
+NIVEL 9: Cancelamento da multiplicacao
          (a·c = b·c ∧ c≠0 ⟹ a=b — usa niveis 2 e 4)
 ```
 
-**Na prova da disciplina:** o mais comum e pedir para voce calcular expressoes usando A1/A2/M1/M2, ou provar alguma propriedade por inducao. Saber "em que nivel" cada resultado esta ajuda a saber o que voce pode usar em cada prova.
+**Na prova da disciplina:** o mais comum e pedir para voce calcular expressoes usando A1/A2/M1/M2/P1/P2, ou provar alguma propriedade por inducao. Saber "em que nivel" cada resultado esta ajuda a saber o que voce pode usar em cada prova.
 
 ---
 
@@ -933,22 +1233,46 @@ Na definicao M2, aparece "+ m". Isso significa que para computar uma multiplicac
 
 ## Exercicios de fixacao
 
-**Computacoes:**
+**Computacoes — Adicao:**
 1. Calcule 3 + 2 usando apenas A1 e A2. Mostre cada passo.
 2. Calcule 1 + 3 usando apenas A1 e A2.
+
+**Computacoes — Multiplicacao:**
 3. Calcule 3 · 2 usando M1, M2, A1 e A2.
 4. Calcule 2 · 2 usando M1, M2, A1 e A2. (Detalhe cada soma intermediaria.)
+5. Calcule 4 · 2 usando M1, M2, A1 e A2.
+6. Calcule 1 · 3 usando M1, M2, A1 e A2. (Observe como a Prop 1 simplifica o calculo.)
 
-**Provas por inducao:**
-5. Prove que S(n) = n + 1 para todo n (dica: basta usar A1 e A2, sem inducao).
-6. Prove que 0 + n = n para todo n ∈ ℕ.
-7. Prove que 0 · n = 0 para todo n ∈ ℕ.
-8. Prove que 1 · n = n para todo n ∈ ℕ. (Dica: use M1, M2 e o lema 0 + n = n.)
-9. Prove a associatividade: (a + b) + c = a + (b + c) para todo a, b, c ∈ ℕ.
+**Computacoes — Potenciacao:**
+7. Calcule 2⁴ usando P1, P2, M1, M2, A1 e A2.
+8. Calcule 3² usando P1 e P2. (Voce pode usar resultados de multiplicacao ja calculados.)
+9. Calcule 1³ usando P1 e P2. (Verifique que bate com 1ⁿ = 1.)
+10. Calcule 2⁰ e 0² usando as definicoes. (Observe a diferenca entre base e expoente zero.)
+
+**Provas por inducao — Adicao:**
+11. Prove que S(n) = n + 1 para todo n (dica: basta usar A1 e A2, sem inducao).
+12. Prove que 0 + n = n para todo n ∈ ℕ.
+13. Prove a associatividade: (a + b) + c = a + (b + c) para todo a, b, c ∈ ℕ.
+
+**Provas por inducao — Multiplicacao:**
+14. Prove que 0 · n = 0 para todo n ∈ ℕ.
+15. Prove que 1 · n = n para todo n ∈ ℕ. (Dica: use M1, M2 e o lema 0 + n = n.)
+16. Prove que S(a) · b = (a · b) + b para todo a, b ∈ ℕ. (Dica: inducao em b.)
+17. Prove a comutatividade: a · b = b · a para todo a, b ∈ ℕ. (Dica: use as provas 14 e 16.)
+18. Prove a distributividade: a · (b + c) = a · b + a · c para todo a, b, c ∈ ℕ.
+
+**Provas por inducao — Potenciacao:**
+19. Prove que 1ⁿ = 1 para todo n ∈ ℕ.
+20. Prove que 0^S(n) = 0 para todo n ∈ ℕ.
+21. Prove que aⁿ⁺ᵐ = aⁿ · aᵐ para todo a, n, m ∈ ℕ. (Dica: inducao em m.)
+22. Prove que (a · b)ⁿ = aⁿ · bⁿ para todo a, b, n ∈ ℕ. (Dica: inducao em n.)
 
 **Conceitual:**
-10. Por que 0 · n = 0 precisa de prova, mas n · 0 = 0 nao?
-11. Na prova de comutatividade de +, quais lemas sao usados?
+23. Por que 0 · n = 0 precisa de prova, mas n · 0 = 0 nao?
+24. Na prova de comutatividade de +, quais lemas sao usados?
+25. Na prova de comutatividade de ·, quais propriedades sao usadas?
+26. Por que a definicao P1 diz que a⁰ = 1 e nao a⁰ = 0?
+27. Por que a prova de (aⁿ)ᵐ = aⁿ·ᵐ depende da prova de aⁿ⁺ᵐ = aⁿ · aᵐ?
 
 > **Respostas selecionadas:**
 >
@@ -959,16 +1283,35 @@ Na definicao M2, aparece "+ m". Isso significa que para computar uma multiplicac
 > 3- 3·2 = 3·S(1) = 3·1 + 3 = (3·S(0)) + 3 = (3·0 + 3) + 3 = (0+3)+3 = 3+3
 >    = 3+S(2) = S(3+2) = S(3+S(1)) = S(S(3+1)) = S(S(3+S(0))) = S(S(S(3+0))) = S(S(S(3))) = S(S(4)) = S(5) = 6. □
 >
-> 5- n+1 = n+S(0) = S(n+0) = S(n). Logo S(n) = n+1. (Nao precisa de inducao.) □
+> 6- 1·3 = 1·S(2) = 1·2 + 1. Agora 1·2 = 1·S(1) = 1·1 + 1. Agora 1·1 = 1·S(0) = 1·0 + 1 = 0 + 1 = 1.
+>    Voltando: 1·2 = 1 + 1 = 2. Voltando: 1·3 = 2 + 1 = 3. □
 >
-> 8- Base: 1·0 = 0 (por M1). E 0 = 0. ✓.
->    Passo: 1·S(k) = 1·k + 1 (por M2) = k + 1 (pela H.I.) = S(k) (pois n+1 = S(n)). ✓. □
+> 7- 2⁴ = 2³ · 2 = (2² · 2) · 2 = ((2¹ · 2) · 2) · 2 = (((2⁰ · 2) · 2) · 2) · 2
+>    = (((1 · 2) · 2) · 2) · 2 = ((2 · 2) · 2) · 2 = (4 · 2) · 2 = 8 · 2 = 16. □
 >
-> 10- n·0 = 0 e a definicao M1 — e literal. 0·n tem 0 no primeiro argumento,
+> 10- 2⁰ = 1 (por P1). 0² = 0^S(1) = 0¹ · 0 = (0^S(0) · 0) = (0⁰ · 0) · 0 = (1 · 0) · 0 = 0 · 0 = 0.
+>     Nota: o expoente zero sempre da 1 (por definicao), mas a base zero da 0 (para expoente ≥ 1). □
+>
+> 11- n+1 = n+S(0) = S(n+0) = S(n). Logo S(n) = n+1. (Nao precisa de inducao.) □
+>
+> 15- Base: 1·0 = 0 (por M1). E 0 = 0. ✓.
+>     Passo: 1·S(k) = 1·k + 1 (por M2) = k + 1 (pela H.I.) = S(k) (pois n+1 = S(n)). ✓. □
+>
+> 23- n·0 = 0 e a definicao M1 — e literal. 0·n tem 0 no primeiro argumento,
 >     que nao e o argumento da recursao. A definicao so "descasca" o segundo
 >     argumento, entao 0·n precisa de inducao para "percorrer" todos os valores de n. □
 >
-> 11- Sao usados: (1) o lema 0+n = n (no caso base) e (2) o lema S(m)+n = S(m+n) (no passo indutivo).
+> 24- Sao usados: (1) o lema 0+n = n (no caso base) e (2) o lema S(m)+n = S(m+n) (no passo indutivo).
+>
+> 25- Sao usadas: (1) Prop 1 (0·a = 0) no caso base e (2) Prop 2 (S(a)·b = (a·b)+b) no passo indutivo.
+>
+> 26- Porque 1 e o elemento neutro da multiplicacao (a · 1 = a). A potenciacao repete a multiplicacao,
+>     entao zero repeticoes deve dar o neutro multiplicativo (1), nao o neutro aditivo (0).
+>     Analogia: m + 0 = m (zero somas, neutro da adicao); m · 0 = 0 (zero parcelas); a⁰ = 1 (zero fatores). □
+>
+> 27- No passo indutivo de (aⁿ)ᵐ, aparece a expressao a^(n·k + n), que precisa ser reescrita como
+>     a^(n·k) · aⁿ. Essa reescrita so e possivel com a propriedade a^(p+q) = a^p · a^q.
+>     Sem ela, a prova nao fecha. □
 
 ## Referencias
 - **Terence Tao**, Analysis I, Cap. 2 (adicao) e Cap. 3 (multiplicacao) — tratamento completo
