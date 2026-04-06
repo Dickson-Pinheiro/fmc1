@@ -407,6 +407,7 @@ Pelo principio de inducao, 2ⁿ > n² para todo n ≥ 5. □
 Se voce esta perdido, organize assim:
 
 ```
+
 | O que eu SEI (H.I.)              | O que eu PRECISO MOSTRAR           |
 |----------------------------------|-------------------------------------|
 | 1+2+...+k = k(k+1)/2            | 1+2+...+k+(k+1) = (k+1)(k+2)/2    |

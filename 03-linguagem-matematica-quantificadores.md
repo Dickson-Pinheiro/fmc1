@@ -72,6 +72,7 @@ A **ordem importa** quando os quantificadores sao diferentes:
 - ∃y ∀x, x + y = 0 → **F** (nenhum y unico serve para todo x)
 
 ### Traduzindo linguagem natural para simbolos
+
 | Portugues | Simbolos |
 |---|---|
 | "Todo natural e nao-negativo" | ∀n ∈ N, n ≥ 0 |

@@ -21,12 +21,14 @@ Conectivos combinam proposicoes simples para formar proposicoes compostas.
 ### Tabelas-verdade
 
 **Negacao (¬p):**
+
 | p | ¬p |
 |---|---|
 | V | F |
 | F | V |
 
 **Conjuncao (p ∧ q):** so e V quando ambos sao V
+
 | p | q | p ∧ q |
 |---|---|---|
 | V | V | V |
@@ -35,6 +37,7 @@ Conectivos combinam proposicoes simples para formar proposicoes compostas.
 | F | F | F |
 
 **Disjuncao (p ∨ q):** so e F quando ambos sao F
+
 | p | q | p ∨ q |
 |---|---|---|
 | V | V | V |
@@ -43,6 +46,7 @@ Conectivos combinam proposicoes simples para formar proposicoes compostas.
 | F | F | F |
 
 **Condicional (p → q):** so e F quando p e V e q e F
+
 | p | q | p → q |
 |---|---|---|
 | V | V | V |
@@ -53,6 +57,7 @@ Conectivos combinam proposicoes simples para formar proposicoes compostas.
 > **Atencao:** "F → qualquer coisa" e sempre V. Essa e a parte mais contra-intuitiva. "Se 2+2=5 entao eu sou o rei" e verdadeiro!
 
 **Bicondicional (p ↔ q):** V quando ambos tem o mesmo valor
+
 | p | q | p ↔ q |
 |---|---|---|
 | V | V | V |
