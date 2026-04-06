@@ -408,46 +408,177 @@ Pelo principio de inducao, 0 · n = 0 para todo n ∈ ℕ. □
 
 ### Propriedades da multiplicacao (provadas por inducao)
 
-Assim como na adicao, todas as propriedades "obvias" precisam ser demonstradas:
+Assim como na adicao, todas as propriedades "obvias" precisam ser demonstradas. A ordem importa: cada prova pode usar apenas os resultados anteriores.
 
-| Propriedade | Enunciado | Ideia da prova |
-|---|---|---|
-| Absorcao | 0 · n = 0 | Inducao em n (provada acima) |
-| Identidade | 1 · n = n | Inducao em n |
-| Distributividade | a · (b + c) = a·b + a·c | Inducao em c |
-| Associatividade | (a · b) · c = a · (b · c) | Inducao em c |
-| Comutatividade | a · b = b · a | Inducao em b (precisa de lemas) |
+| # | Propriedade | Enunciado | Ideia da prova |
+|---|---|---|---|
+| 1 | Absorcao | 0 · a = 0 | Inducao em a (provada acima) |
+| 2 | Lema do sucessor | S(a) · b = (a · b) + b | Inducao em b |
+| 3 | Comutatividade | a · b = b · a | Inducao em b (usa props. 1 e 2) |
+| 4 | Distributividade | a · (b + c) = a·b + a·c | Inducao em c |
+| 5 | Associatividade | (a · b) · c = a · (b · c) | Inducao em c (usa prop. 4) |
 
 A torre de dependencias para a multiplicacao:
 
 ```
 Definicoes M1, M2 + toda a teoria da adicao
     ↓
-Lema: 0 · n = 0
+Propriedade 1: 0 · a = 0              (lema — inducao em a)
     ↓
-Lema: 1 · n = n
+Propriedade 2: S(a) · b = (a·b) + b   (lema — inducao em b)
     ↓
-Lema: S(m) · n = m · n + n       (analogo ao lema S(m) + n da adicao)
+Propriedade 3: a · b = b · a           (comutatividade — usa props. 1 e 2)
     ↓
-Distributividade: a · (b + c) = a·b + a·c
+Propriedade 4: a·(b+c) = a·b + a·c    (distributividade — independe de 3)
     ↓
-Comutatividade: a · b = b · a
-    ↓
-Associatividade: (a · b) · c = a · (b · c)
+Propriedade 5: (a·b)·c = a·(b·c)      (associatividade — usa prop. 4)
+```
+
+**Por que essa ordem?** Props 1 e 2 sao lemas preparatorios (analogos aos da adicao). A comutatividade (3) depende deles. A distributividade (4) e independente da comutatividade — usa apenas as definicoes e propriedades da adicao. A associatividade (5) depende da distributividade (4). Como 3 e 4 sao independentes, podem vir em qualquer ordem entre si, mas essa sequencia e mais natural: primeiro fechamos a comutatividade (completando o paralelo com a adicao), depois introduzimos a distributividade (propriedade nova que mistura · e +), e por fim a associatividade.
+
+---
+
+### Propriedade 1: 0 · a = 0 (absorcao)
+
+Essa propriedade ja foi provada acima, mas vale relembrar por que ela e necessaria.
+
+A definicao M1 diz que **m · 0 = 0** — o zero esta no SEGUNDO argumento. Isso nos da n · 0 = 0 de graca. Mas **0 · a = 0** tem o zero no PRIMEIRO argumento, que nao e o argumento da recursao. Por isso, precisamos de inducao.
+
+A prova completa esta na secao anterior. O resultado e:
+
+```
+0 · a = 0   para todo a ∈ ℕ.  □
 ```
 
 ---
 
-### Prova da distributividade: a · (b + c) = a · b + a · c
+### Propriedade 2 (Lema do sucessor): S(a) · b = (a · b) + b
 
-Essa prova e fundamental — a comutatividade e a associatividade da multiplicacao dependem dela.
+Esse lema e o analogo multiplicativo do lema S(m) + n = S(m + n) que usamos na comutatividade da adicao.
+
+**A intuicao:** multiplicar S(a) por b e o mesmo que "b vezes o proximo de a". Ou seja, sao b parcelas de S(a), que e b parcelas de a MAIS b parcelas de 1 (que e b). Formalmente: S(a) · b = (a · b) + b.
+
+**Por que precisamos disso?** A definicao M2 diz m · S(n) = m · n + m — o S(…) esta no **segundo** argumento. Esse lema move o S(…) para o **primeiro** argumento. Sem ele, nao conseguimos provar a comutatividade.
+
+#### Prova por inducao em b:
+
+```
+Caso base (b = 0):
+  Lado esquerdo:
+    S(a) · 0 = 0                   ← por M1
+
+  Lado direito:
+    (a · 0) + 0
+    = 0 + 0                        ← por M1 (a · 0 = 0)
+    = 0                             ← por A1
+
+  Ambos os lados dao 0.  ✓
+
+H.I.: Suponha que S(a) · k = (a · k) + k.
+
+Passo indutivo (provar S(a) · S(k) = (a · S(k)) + S(k)):
+
+  Lado esquerdo:
+    S(a) · S(k)
+    = S(a) · k + S(a)              ← por M2
+    = ((a · k) + k) + S(a)         ← pela H.I.
+
+  Lado direito:
+    (a · S(k)) + S(k)
+    = (a · k + a) + S(k)           ← por M2 (a · S(k) = a · k + a)
+
+  Precisamos mostrar que ((a·k) + k) + S(a) = (a·k + a) + S(k).
+
+  Simplificando o lado esquerdo:
+    ((a · k) + k) + S(a)
+    = S(((a · k) + k) + a)         ← por A2
+    = S((a · k) + (k + a))         ← pela associatividade da adicao
+
+  Simplificando o lado direito:
+    (a · k + a) + S(k)
+    = S((a · k + a) + k)           ← por A2
+    = S(a · k + (a + k))           ← pela associatividade da adicao
+
+  Agora, pela comutatividade da ADICAO (ja provada):
+    k + a = a + k
+
+  Logo:
+    S((a · k) + (k + a)) = S(a · k + (a + k))  ✓
+
+Pelo principio de inducao, S(a) · b = (a · b) + b para todo a, b ∈ ℕ. □
+```
+
+**Observe:** essa prova usa a comutatividade e associatividade da ADICAO (que ja foram provadas). As propriedades da adicao sao ferramentas para provar as propriedades da multiplicacao.
+
+---
+
+### Propriedade 3 (Comutatividade): a · b = b · a
+
+Assim como na adicao, a comutatividade da multiplicacao **nao e parte da definicao** — precisa ser provada. A prova segue a mesma estrutura da comutatividade da adicao: usa dois lemas (propriedades 1 e 2) como ingredientes.
+
+**Comparacao com a adicao — o padrao e o mesmo:**
+
+```
+Adicao:                              Multiplicacao:
+  Lema: 0 + n = n                      Prop 1: 0 · a = 0
+  Lema: S(m) + n = S(m + n)            Prop 2: S(a) · b = (a · b) + b
+  Teorema: a + b = b + a               Prop 3: a · b = b · a
+```
+
+#### Prova por inducao em b:
+
+```
+Caso base (b = 0):
+  Lado esquerdo:
+    a · 0 = 0                      ← por M1
+
+  Lado direito:
+    0 · a = 0                      ← pela Propriedade 1
+
+  Ambos os lados dao 0.  ✓
+
+H.I.: Suponha que a · k = k · a.
+
+Passo indutivo (provar a · S(k) = S(k) · a):
+
+  Lado esquerdo:
+    a · S(k)
+    = a · k + a                    ← por M2
+    = k · a + a                    ← pela H.I. (trocamos a · k por k · a)
+
+  Lado direito:
+    S(k) · a
+    = (k · a) + a                  ← pela Propriedade 2 (S(k)·a = k·a + a)
+
+  Ambos os lados dao (k · a) + a.  ✓
+
+Pelo principio de inducao, a · b = b · a para todo a, b ∈ ℕ. □
+```
+
+**A estrutura e elegante:** o caso base usa a Propriedade 1 (0 · a = 0) e o passo indutivo usa a Propriedade 2 (S(a) · b = (a · b) + b). Sem esses dois lemas, a prova nao fecha.
+
+---
+
+### Propriedade 4 (Distributividade): a · (b + c) = a · b + a · c
+
+Essa propriedade e a primeira que mistura as duas operacoes (multiplicacao e adicao). Ela e fundamental porque a associatividade da multiplicacao (propriedade 5) depende dela.
+
+**A intuicao:** se voce tem a parcelas de (b + c), e o mesmo que a parcelas de b mais a parcelas de c.
+
+**Note:** essa prova NAO usa a comutatividade da multiplicacao (propriedade 3). Ela e independente — usa apenas as definicoes e propriedades da adicao. Por isso, as propriedades 3 e 4 podem vir em qualquer ordem.
 
 #### Prova por inducao em c:
 
 ```
 Caso base (c = 0):
-  a · (b + 0) = a · b           ← por A1 (b + 0 = b)
-  a · b + a · 0 = a · b + 0 = a · b   ← por M1 e A1
+  Lado esquerdo:
+    a · (b + 0) = a · b            ← por A1 (b + 0 = b)
+
+  Lado direito:
+    a · b + a · 0
+    = a · b + 0                    ← por M1 (a · 0 = 0)
+    = a · b                        ← por A1
+
   Iguais.  ✓
 
 H.I.: Suponha que a · (b + k) = a · b + a · k.
@@ -456,21 +587,92 @@ Passo indutivo (provar a · (b + S(k)) = a · b + a · S(k)):
 
   Lado esquerdo:
     a · (b + S(k))
-    = a · S(b + k)              ← por A2 (b + S(k) = S(b + k))
-    = a · (b + k) + a           ← por M2
-    = (a · b + a · k) + a       ← pela H.I.
+    = a · S(b + k)                 ← por A2 (b + S(k) = S(b + k))
+    = a · (b + k) + a              ← por M2
+    = (a · b + a · k) + a          ← pela H.I.
 
   Lado direito:
     a · b + a · S(k)
-    = a · b + (a · k + a)       ← por M2 (a · S(k) = a · k + a)
-    = (a · b + a · k) + a       ← pela associatividade da adicao
+    = a · b + (a · k + a)          ← por M2 (a · S(k) = a · k + a)
+    = (a · b + a · k) + a          ← pela associatividade da adicao
 
   Ambos os lados dao (a · b + a · k) + a.  ✓
 
 Pelo principio de inducao, a · (b + c) = a · b + a · c para todo a, b, c ∈ ℕ. □
 ```
 
-**Observe:** no passo indutivo, usamos a associatividade da adicao (que ja foi provada antes). Cada prova nova pode usar todos os resultados anteriores.
+**Observe:** no passo indutivo, usamos a associatividade da adicao (que ja foi provada). Cada prova nova pode usar todos os resultados anteriores.
+
+---
+
+### Propriedade 5 (Associatividade): (a · b) · c = a · (b · c)
+
+Essa e a ultima propriedade da lista e a mais "pesada", porque depende de quase tudo que veio antes.
+
+**A intuicao:** agrupar a multiplicacao de forma diferente nao muda o resultado. Mas como a multiplicacao foi definida recursivamente no segundo argumento, precisamos de inducao para provar isso.
+
+**O que essa prova usa:**
+- Definicoes M1, M2
+- Distributividade (Propriedade 4): a · (b + c) = a · b + a · c
+
+#### Prova por inducao em c:
+
+```
+Caso base (c = 0):
+  Lado esquerdo:
+    (a · b) · 0 = 0                ← por M1
+
+  Lado direito:
+    a · (b · 0)
+    = a · 0                        ← por M1 (b · 0 = 0)
+    = 0                             ← por M1
+
+  Ambos os lados dao 0.  ✓
+
+H.I.: Suponha que (a · b) · k = a · (b · k).
+
+Passo indutivo (provar (a · b) · S(k) = a · (b · S(k))):
+
+  Lado esquerdo:
+    (a · b) · S(k)
+    = (a · b) · k + (a · b)       ← por M2
+    = a · (b · k) + (a · b)       ← pela H.I.
+
+  Lado direito:
+    a · (b · S(k))
+    = a · (b · k + b)             ← por M2 (b · S(k) = b · k + b)
+    = a · (b · k) + a · b         ← pela Distributividade (Prop. 4)
+
+  Ambos os lados dao a · (b · k) + (a · b).  ✓
+
+Pelo principio de inducao, (a · b) · c = a · (b · c) para todo a, b, c ∈ ℕ. □
+```
+
+**Observe como a distributividade foi essencial:** sem ela, nao conseguiriamos "abrir" a expressao a · (b · k + b) no lado direito. Esse e o motivo pelo qual a distributividade precisa ser provada ANTES da associatividade.
+
+---
+
+### Resumo: a hierarquia completa das propriedades da multiplicacao
+
+Cada seta (↓) significa "usa o resultado de cima na prova":
+
+```
+Definicoes M1, M2  +  Toda a teoria da adicao (A1, A2, comut., assoc.)
+    ↓
+Propriedade 1: 0 · a = 0              (inducao em a)
+    ↓
+Propriedade 2: S(a) · b = (a·b) + b   (inducao em b, usa comut. da adicao)
+    ↓
+Propriedade 3: a · b = b · a           (inducao em b, usa props. 1 e 2)
+    ↓                                                    ↑ independentes ↓
+Propriedade 4: a·(b+c) = a·b + a·c    (inducao em c, usa assoc. da adicao)
+    ↓
+Propriedade 5: (a·b)·c = a·(b·c)      (inducao em c, usa prop. 4)
+```
+
+**Props 3 e 4 sao independentes:** nenhuma usa a outra na prova. A ordem 1→2→3→4→5 segue a logica de primeiro completar o paralelo com a adicao (comutatividade), depois introduzir a distributividade (propriedade nova), e por fim a associatividade.
+
+**Para a prova da disciplina:** se o professor pedir para provar a comutatividade da multiplicacao, voce DEVE mencionar que esta usando as Propriedades 1 e 2. Se pedir a associatividade, mencione a distributividade. Nao basta "usar" — precisa dizer que esta usando.
 
 ---
 
@@ -545,7 +747,9 @@ NIVEL 2: Propriedades da adicao
 NIVEL 3: Definicao da multiplicacao (M1, M2)
     ↓
 NIVEL 4: Propriedades da multiplicacao
-         (0·n=0, distributividade, comutatividade, associatividade)
+         Prop 1: 0·a=0, Prop 2: S(a)·b=(a·b)+b
+         Prop 3: comutatividade, Prop 4: distributividade
+         Prop 5: associatividade
     ↓
 NIVEL 5: Definicao da ordem (≤, <)
     ↓
@@ -599,7 +803,11 @@ Na definicao M2, aparece "+ m". Isso significa que para computar uma multiplicac
 - Saber "computar" passo a passo usando APENAS essas regras
 - Entender que comutatividade e associatividade sao **provadas**, nao assumidas
 - 0 + n = n e 0 · n = 0 **exigem** prova por inducao (a definicao fixa o SEGUNDO argumento)
-- As provas seguem uma hierarquia: cada resultado usa apenas os anteriores
+- As 5 propriedades da multiplicacao seguem uma ordem precisa de dependencia:
+  - Prop 1 (0·a=0) e Prop 2 (S(a)·b=(a·b)+b) sao lemas preparatorios
+  - Prop 3 (comutatividade) usa Props 1 e 2
+  - Prop 4 (distributividade) e independente de Prop 3
+  - Prop 5 (associatividade) usa Prop 4
 - Os Axiomas de Peano (especialmente S injetora) aparecem como ferramentas nas demonstracoes
 
 ## Exercicios de fixacao
