@@ -261,7 +261,7 @@ Lema: S(n) = n + 1
     ↓
 Lema: S(m) + n = S(m + n)
     ↓
-Teorema: a + b = b + a
+Comutatividade: a + b = b + a
 ```
 
 Nada e "obvio" neste contexto — tudo e construido.
@@ -295,6 +295,53 @@ Pelo principio de inducao, (a + b) + c = a + (b + c) para todo a, b, c ∈ ℕ. 
 ```
 
 **Dica para provas:** a associatividade e a comutatividade quase sempre usam inducao no argumento "mais externo" ou no ultimo argumento. Teste c ou b primeiro.
+
+---
+
+### Cancelamento na adicao: a + c = b + c ⟹ a = b
+
+Essa propriedade parece obvia, mas exige prova — e e uma das mais usadas em demonstracoes posteriores (inclusive no cancelamento da multiplicacao).
+
+**A intuicao:** se dois numeros, somados ao mesmo valor, dao o mesmo resultado, entao eles sao iguais.
+
+#### Prova por inducao em c:
+
+```
+Caso base (c = 0):
+  a + 0 = b + 0  ⟹  a = b.  (Por A1.)  ✓
+
+H.I.: Suponha que a + k = b + k ⟹ a = b.
+
+Passo indutivo (provar que a + S(k) = b + S(k) ⟹ a = b):
+  Se a + S(k) = b + S(k), entao:
+  S(a + k) = S(b + k)          ← por A2 (aplicado dos dois lados)
+  a + k = b + k                ← pois S e injetora (Axioma de Peano!)
+  a = b                        ← pela H.I.  ✓
+
+Pelo principio de inducao, a + c = b + c ⟹ a = b para todo c ∈ ℕ. □
+```
+
+**Note:** usamos o axioma de Peano "S e injetora" (S(x) = S(y) ⟹ x = y) diretamente na prova. Os axiomas de Peano nao sao apenas fundamento teorico — eles aparecem como ferramentas nas demonstracoes.
+
+---
+
+### Resumo: a hierarquia completa das propriedades da adicao
+
+```
+Definicoes A1, A2
+    ↓
+Lema: 0 + n = n
+    ↓
+Lema: S(n) = n + 1
+    ↓
+Lema: S(m) + n = S(m + n)
+    ↓
+Comutatividade: a + b = b + a
+    ↓
+Associatividade: (a + b) + c = a + (b + c)
+    ↓
+Cancelamento: a + c = b + c ⟹ a = b
+```
 
 ---
 
@@ -811,31 +858,6 @@ m < n   ⟺   m ≤ n  ∧  m ≠ n
 | Totalidade | para todo m, n: m ≤ n ou n ≤ m |
 | Compativel com + | se a ≤ b, entao a + c ≤ b + c |
 | Compativel com · | se a ≤ b, entao a · c ≤ b · c |
-
----
-
-### Cancelamento na adicao: a + c = b + c ⟹ a = b
-
-Outra propriedade que parece obvia mas exige prova.
-
-#### Prova por inducao em c:
-
-```
-Caso base (c = 0):
-  a + 0 = b + 0  ⟹  a = b.  (Por A1.)  ✓
-
-H.I.: Suponha que a + k = b + k ⟹ a = b.
-
-Passo indutivo (provar que a + S(k) = b + S(k) ⟹ a = b):
-  Se a + S(k) = b + S(k), entao:
-  S(a + k) = S(b + k)          ← por A2 (aplicado dos dois lados)
-  a + k = b + k                ← pois S e injetora (Axioma de Peano!)
-  a = b                        ← pela H.I.  ✓
-
-Pelo principio de inducao, a + c = b + c ⟹ a = b para todo c ∈ ℕ. □
-```
-
-**Note:** usamos o axioma de Peano "S e injetora" (S(x) = S(y) ⟹ x = y) diretamente na prova. Os axiomas de Peano nao sao apenas fundamento teorico — eles aparecem como ferramentas nas demonstracoes.
 
 ---
 
