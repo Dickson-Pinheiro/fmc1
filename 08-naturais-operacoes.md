@@ -652,6 +652,111 @@ Pelo principio de inducao, (a · b) · c = a · (b · c) para todo a, b, c ∈ �
 
 ---
 
+### Cancelamento na multiplicacao: a · c = b · c ∧ c ≠ 0 ⟹ a = b
+
+Essa e a versao multiplicativa do cancelamento. Comparada com o cancelamento da adicao (que veremos adiante), ela e **mais delicada** por dois motivos:
+
+1. Precisamos exigir **c ≠ 0** (pois a · 0 = b · 0 = 0 para quaisquer a, b — nao podemos concluir nada).
+2. A prova usa mais ingredientes: distributividade, cancelamento da adicao, tricotomia da ordem, e dois fatos auxiliares.
+
+**A exigencia c ≠ 0 e essencial.** Sem ela: 3 · 0 = 5 · 0 (ambos sao 0), mas 3 ≠ 5.
+
+**Nota:** essa prova depende da tricotomia da ordem nos naturais (para quaisquer a, b, exatamente uma vale: a = b, a > b ou b > a) e do cancelamento da adicao, que serao apresentados nas secoes seguintes. Incluimos a prova aqui para manter todas as propriedades da multiplicacao juntas, mas ela so pode ser formalmente utilizada **apos** esses resultados serem estabelecidos.
+
+---
+
+#### Fatos auxiliares
+
+Antes da prova principal, precisamos de dois fatos:
+
+**Fato auxiliar 1: a + b = 0 ⟹ a = 0 ∧ b = 0**
+
+Se a soma de dois naturais e zero, ambos sao zero.
+
+```
+Prova:
+  Se b = S(k) para algum k, entao:
+    a + S(k) = S(a + k)      ← por A2
+  Mas S(a + k) ≠ 0 pelo axioma de Peano (0 nao e sucessor de ninguem).
+  Logo a + S(k) ≠ 0 — contradiz a hipotese.
+  Portanto b = 0, e dai a + 0 = 0, logo a = 0 por A1. □
+```
+
+**Fato auxiliar 2: a · b = 0 ⟹ a = 0 ∨ b = 0**
+
+Se um produto e zero, pelo menos um dos fatores e zero.
+
+```
+Prova (por contraposicao — provamos que a ≠ 0 ∧ b ≠ 0 ⟹ a·b ≠ 0):
+  Suponha a ≠ 0 e b ≠ 0. Entao a = S(a') e b = S(b') para alguns a', b'.
+
+  a · b
+  = a · S(b')                  ← pois b = S(b')
+  = a · b' + a                 ← por M2
+
+  Como a = S(a'), temos a ≠ 0, logo:
+    a · b' + S(a') = S(a · b' + a') ≠ 0    ← pelo axioma de Peano (0 ≠ S(n))
+
+  Portanto a · b ≠ 0. □
+```
+
+**Consequencia direta:** se a · c = 0 e **c ≠ 0**, entao **a = 0**.
+
+---
+
+#### Prova do cancelamento
+
+```
+Temos a · c = b · c com c ≠ 0. Pela tricotomia, ha tres casos:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Caso 1: a = b.
+  Pronto — e o que queriamos. ✓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Caso 2: a > b.
+  Existe d ≠ 0 tal que a = b + d.
+
+  Substituimos na hipotese a · c = b · c:
+    (b + d) · c = b · c
+
+  Pela distributividade (a direita: (x+y)·z = x·z + y·z):
+    b · c + d · c = b · c
+
+  Reescrevemos b · c como b · c + 0 (por A1):
+    b · c + d · c = b · c + 0
+
+  Pelo cancelamento da ADICAO (cancelamos b · c):
+    d · c = 0
+
+  Mas d ≠ 0 e c ≠ 0. Pelo fato auxiliar 2, d·c ≠ 0.
+  Contradicao! ✗
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Caso 3: b > a.
+  Simetrico ao Caso 2 (troque a e b). Contradicao! ✗
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Os casos 2 e 3 levam a contradicao.
+Logo o unico caso possivel e a = b. □
+```
+
+**Observe a cadeia de dependencias desta prova:**
+
+```
+Cancelamento da multiplicacao
+    usa → Distributividade a direita ((a+b)·c = a·c + b·c)
+    usa → Cancelamento da adicao (a+c = b+c ⟹ a = b)
+    usa → Fato auxiliar 2 (a·b = 0 ⟹ a=0 ∨ b=0)
+    usa → Tricotomia da ordem (a = b, a > b ou b > a)
+```
+
+**Nota sobre a distributividade a direita:** a Propriedade 4 prova a distributividade a ESQUERDA: a · (b + c) = a·b + a·c. A versao a direita, (a + b) · c = a·c + b·c, segue combinando a Propriedade 4 com a comutatividade (Propriedade 3): (a + b) · c = c · (a + b) = c·a + c·b = a·c + b·c.
+
+---
+
 ### Resumo: a hierarquia completa das propriedades da multiplicacao
 
 Cada seta (↓) significa "usa o resultado de cima na prova":
@@ -668,11 +773,13 @@ Propriedade 3: a · b = b · a           (inducao em b, usa props. 1 e 2)
 Propriedade 4: a·(b+c) = a·b + a·c    (inducao em c, usa assoc. da adicao)
     ↓
 Propriedade 5: (a·b)·c = a·(b·c)      (inducao em c, usa prop. 4)
+    ↓
+Cancelamento: a·c = b·c ∧ c≠0 ⟹ a=b  (usa distrib., cancel. adicao, tricotomia)
 ```
 
-**Props 3 e 4 sao independentes:** nenhuma usa a outra na prova. A ordem 1→2→3→4→5 segue a logica de primeiro completar o paralelo com a adicao (comutatividade), depois introduzir a distributividade (propriedade nova), e por fim a associatividade.
+**Props 3 e 4 sao independentes:** nenhuma usa a outra na prova. A ordem 1→2→3→4→5 segue a logica de primeiro completar o paralelo com a adicao (comutatividade), depois introduzir a distributividade (propriedade nova), e por fim a associatividade. O cancelamento vem por ultimo porque depende de resultados de fora da multiplicacao (ordem e cancelamento da adicao).
 
-**Para a prova da disciplina:** se o professor pedir para provar a comutatividade da multiplicacao, voce DEVE mencionar que esta usando as Propriedades 1 e 2. Se pedir a associatividade, mencione a distributividade. Nao basta "usar" — precisa dizer que esta usando.
+**Para a prova da disciplina:** se o professor pedir para provar a comutatividade da multiplicacao, voce DEVE mencionar que esta usando as Propriedades 1 e 2. Se pedir a associatividade, mencione a distributividade. Se pedir o cancelamento, mencione a distributividade a direita, o cancelamento da adicao e a tricotomia. Nao basta "usar" — precisa dizer que esta usando.
 
 ---
 
@@ -754,7 +861,10 @@ NIVEL 4: Propriedades da multiplicacao
 NIVEL 5: Definicao da ordem (≤, <)
     ↓
 NIVEL 6: Propriedades da ordem
-         (reflexiva, transitiva, compatibilidade com + e ·)
+         (reflexiva, transitiva, tricotomia, compatibilidade com + e ·)
+    ↓
+NIVEL 7: Cancelamento da multiplicacao
+         (a·c = b·c ∧ c≠0 ⟹ a=b — usa niveis 2, 4 e 6)
 ```
 
 **Na prova da disciplina:** o mais comum e pedir para voce calcular expressoes usando A1/A2/M1/M2, ou provar alguma propriedade por inducao. Saber "em que nivel" cada resultado esta ajuda a saber o que voce pode usar em cada prova.
