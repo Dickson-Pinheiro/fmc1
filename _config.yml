@@ -1,0 +1,18 @@
+title: "FMC1 - Fundamentos Matematicos da Computacao 1"
+description: "Material de estudo para FMC1"
+theme: minima
+baseurl: "/fmc1"
+url: "https://Dickson-Pinheiro.github.io"
+
+header_pages:
+  - index.md
+  - 01-proposicoes-variaveis-funcoes.md
+  - 02-conectivos-logicos-relacoes.md
+  - 03-linguagem-matematica-quantificadores.md
+  - 04-assercoes-condicionais-provas.md
+  - 05-contra-exemplos-absurdo.md
+  - 06-inducao.md
+  - 07-naturais-axiomas.md
+  - 08-naturais-operacoes.md
+  - 09-principio-boa-ordem.md
+  - revisao-fmc1.md
